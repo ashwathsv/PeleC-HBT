@@ -483,6 +483,27 @@ initialize_EB2(
   if (geom_type == "flat_plate") {
     amrex::Print() << "flat plate  geometry not currently supported. \n";
     amrex::Abort();
+  } else if(geom_type == "HBT"){
+    amrex::Vector<amrex::Real> pl1lo;
+    amrex::Vector<amrex::Real> pl1hi;
+    amrex::Vector<amrex::Real> pl2lo;
+    amrex::Vector<amrex::Real> pl2hi;
+
+    amrex::ParmParse pp("hbt");
+
+    pp.getarr("baffle_lo", pl1lo);
+    pp.getarr("baffle_hi", pl1hi);
+    pp.getarr("wall_lo", pl2lo);
+    pp.getarr("wall_hi", pl2hi);    
+
+    amrex::EB2::BoxIF baffle({pl1lo[0], pl1lo[1], pl1lo[2]}, {pl1hi[0], pl1hi[1], pl1hi[2]}, false);
+    amrex::EB2::BoxIF wall({pl2lo[0], pl2lo[1], pl2lo[2]}, {pl2hi[0], pl2hi[1], pl2hi[2]}, false);
+
+    auto hbtconf = amrex::EB2::makeUnion(baffle, wall);
+
+    auto gshop = amrex::EB2::makeShop(hbtconf);
+    amrex::EB2::Build(gshop, geom, max_level, max_level);
+
   } else if (geom_type == "ramp") {
     amrex::Print() << "ramp geometry\n";
     int upDir;

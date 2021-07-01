@@ -690,6 +690,23 @@ PeleC::initData()
   }
 #endif
 
+  if(verbose && level == 0){
+        amrex::MultiFab Stmp;
+        Stmp.define(S_new.boxArray(), S_new.DistributionMap(), NVAR, NUM_GROW+nGrowF);
+        amrex::MultiFab::Copy(Stmp,S_new,0,0,NVAR,0);
+        FillPatch(*this,Stmp,NUM_GROW+nGrowF,0.0,State_Type,0,NVAR);
+
+        ProbParmDevice* lpparm = d_prob_parm_device;
+        const auto geomdata = geom.data();
+        pc_probspecific_func(S_new, geomdata, *lpparm, 0, 0.0);
+
+        amrex::Real rhomax = Stmp.max(URHO,NUM_GROW+nGrowF);
+        amrex::Real Tmax = Stmp.max(UTEMP,NUM_GROW+nGrowF);
+        amrex::Real Rspec = 2870580.0;
+        amrex::Print() << "nGrowF = " << nGrowF << ", max(rho) = " << rhomax
+                       << ", max(T) = " << Tmax<< ", max(pre) " << rhomax*Rspec*Tmax << "\n";
+    }
+
   if (verbose) {
     amrex::Print() << "Done initializing level " << level << " data "
                    << std::endl;
@@ -1200,6 +1217,12 @@ PeleC::postCoarseTimeStep(amrex::Real cumtime)
 {
   BL_PROFILE("PeleC::postCoarseTimeStep()");
   AmrLevel::postCoarseTimeStep(cumtime);
+  if(level == 0){
+    amrex::MultiFab& S = get_new_data(State_Type);
+    ProbParmDevice* lpparm = d_prob_parm_device;
+    const auto geomdata = geom.data();
+    pc_probspecific_func(S, geomdata, *lpparm, 1, cumtime);
+  }
 }
 
 void

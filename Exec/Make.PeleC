@@ -1,5 +1,6 @@
 PELEC_HOME        ?= ../
 PELE_PHYSICS_HOME ?= $(PELEC_HOME)/Submodules/PelePhysics
+#AMREX_HOME        ?= $(HOME)/amrex-21.06
 AMREX_HOME        ?= $(PELEC_HOME)/Submodules/AMReX
 
 TOP := $(PELEC_HOME)
