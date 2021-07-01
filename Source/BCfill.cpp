@@ -61,15 +61,15 @@ struct PCHypFillExtDir
       (bc[idir + AMREX_SPACEDIM] == amrex::BCType::ext_dir) &&
       (iv[idir] > domhi[idir])) {
       // amrex::Print() << "entered user-defined BC for xhi\n";
-      for(int ng = 0; ng < NUM_GROW; ++ng){
-        amrex::IntVect loc(AMREX_D_DECL(domhi[idir]+ng, iv[1], iv[2]));
-        for (int n = 0; n < NVAR; n++) {
-          s_int[ng][n] = dest(loc, n);
-        }
-      }
+      // for(int ng = 0; ng < NUM_GROW; ++ng){
+        amrex::IntVect loc(AMREX_D_DECL(domhi[idir], iv[1], iv[2]));
+        // for (int n = 0; n < NVAR; n++) {
+        //   s_int[ng][n] = dest(loc, n);
+        // }
+      // }
       // bcnormal(x, s_int, s_ext, idir, -1, time, geom, *lprobparm);
       for (int n = 0; n < NVAR; n++) {
-        dest(iv, n) = s_ext[n];
+        dest(iv, n) = dest(loc, n);
       }
     }
 #if AMREX_SPACEDIM > 1

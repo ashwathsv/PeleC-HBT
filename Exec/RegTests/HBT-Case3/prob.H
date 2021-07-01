@@ -116,6 +116,12 @@ pc_userbc(
             }
         }else{
             // slip wall boundary condition (symmetry BC for scalars, no flux BC for normal velocity)
+              if(prob_parm.isout_lox == 1 && x[1] >= geomdata.ProbHi(1) - prob_parm.width){
+                // simple first-order extrapolation
+                for(int nc = URHO; nc < NVAR; ++nc){
+                    s_ext[nc] = s_int[0][nc];
+                }
+              }else{
                 s_ext[URHO]   = s_int[-(ind+1)][URHO];
                 s_ext[UMX]    = -s_int[-(ind+1)][UMX];
                 s_ext[UMY]    = s_int[-(ind+1)][UMY];
@@ -125,6 +131,7 @@ pc_userbc(
                 s_ext[UTEMP]  = s_int[-(ind+1)][UTEMP];
                 for (int nc = 0; nc < NUM_SPECIES; nc++)
                     s_ext[UFS + nc] = s_int[-(ind+1)][UFS+nc];
+              }          
         }        
     }else if(idir == 1 && sgn == -1){
         // Outflow BC for Case 3 (outflow at bottom boundary)

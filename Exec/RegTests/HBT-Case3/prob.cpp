@@ -33,6 +33,7 @@ amrex_probinit(
         pp.get("iprobe", PeleC::h_prob_parm_device->iprobe);
         pp.get("jprobe", PeleC::h_prob_parm_device->jprobe);
         pp.get("in_loend", PeleC::h_prob_parm_device->in_loend);
+        pp.query("isout_lox", PeleC::h_prob_parm_device->isout_lox);
 
         pp.get("pressure_file", PeleC::h_prob_parm_device->pres_file);
   }

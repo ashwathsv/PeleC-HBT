@@ -19,7 +19,7 @@ amr.n_cell           =  256   32   8
 # >>>>>>>>>>>>>  BC KEYWORDS <<<<<<<<<<<<<<<<<<<<<<
 
 pelec.lo_bc       =  "UserBC" "Symmetry" "Interior"
-pelec.hi_bc       =  "Symmetry" "UserBC" "Interior"
+pelec.hi_bc       =  "UserBC" "UserBC" "Interior"
 
 # Problem setup
 pelec.eb_boundary_T = 0.0
@@ -146,5 +146,6 @@ prob.jprobe = 31
 prob.out_width = 500.0
 #prob.out_width = 500.0
 prob.out_loend = 0.0
+prob.isout_lox = 1
 
 #fabarray.mfiter_tile_size = 1024 1024 1024

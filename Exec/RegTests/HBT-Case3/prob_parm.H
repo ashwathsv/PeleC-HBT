@@ -27,6 +27,7 @@ struct ProbParmDevice
   int iprobe = 0;
   int jprobe = 0;
   amrex::Real in_loend = 0.0;
+  int isout_lox = 0;
 
   std::string pres_file = "pressuredata.txt";
 };

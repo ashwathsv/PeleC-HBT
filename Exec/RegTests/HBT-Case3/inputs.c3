@@ -21,7 +21,7 @@ amr.n_cell           =  256   32   8
 # >>>>>>>>>>>>>  BC KEYWORDS <<<<<<<<<<<<<<<<<<<<<<
 
 pelec.lo_bc       =  "UserBC" "UserBC" "Interior"
-pelec.hi_bc       =  "Symmetry" "Symmetry" "Interior"
+pelec.hi_bc       =  "UserBC" "Symmetry" "Interior"
 
 # Problem setup
 pelec.eb_boundary_T = 0.0
